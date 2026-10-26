@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Student Information Form</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+            --focus-ring: #93c5fd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 20px auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        fieldset {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background-color: #fafafa;
+        }
+
+        legend {
+            font-weight: 600;
+            color: var(--primary-color);
+            padding: 0 10px;
+            font-size: 1.1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        label .required {
+            color: #ef4444;
+        }
+
+        input, select, textarea {
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease-in-out;
+            background-color: #ffffff;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--focus-ring);
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .radio-group label, .checkbox-group label {
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button[type="reset"] {
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #cbd5e1;
+        }
+
+        #status-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        #status-message.success {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        #status-message.error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Student Information Registration</h2>
+    
+    <form id="studentForm">
+        
+        <!-- 1. Academic Information -->
+        <fieldset>
+            <legend>Academic Information</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="rollNumber">Roll Number / Student ID <span class="required">*</span></label>
+                    <input type="text" id="rollNumber" name="rollNumber" required placeholder="e.g., STU2026-001">
+                </div>
+                <div class="form-group">
+                    <label for="registrationNo">Registration Number</label>
+                    <input type="text" id="registrationNo" name="registrationNo" placeholder="e.g., REG-998877">
+                </div>
+                <div class="form-group">
+                    <label for="course">Course / Program <span class="required">*</span></label>
+                    <select id="course" name="course" required>
+                        <option value="">Select Course</option>
+                        <option value="B.Tech">B.Tech</option>
+                        <option value="B.Sc">B.Sc</option>
+                        <option value="B.Com">B.Com</option>
+                        <option value="B.A">B.A</option>
+                        <option value="M.Tech">M.Tech</option>
+                        <option value="M.Sc">M.Sc</option>
+                        <option value="MBA">MBA</option>
+                        <option value="MCA">MCA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="department">Department / Specialization <span class="required">*</span></label>
+                    <input type="text" id="department" name="department" required placeholder="e.g., Computer Science">
+                </div>
+                <div class="form-group">
+                    <label for="academicYear">Academic Year / Semester <span class="required">*</span></label>
+                    <select id="academicYear" name="academicYear" required>
+                        <option value="">Select Year</option>
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="section">Section / Batch</label>
+                    <input type="text" id="section" name="section" placeholder="e.g., Section A">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- 2. Personal Information -->
+        <fieldset>
+            <legend>Personal Information</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="firstName">First Name <span class="required">*</span></label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="First Name">
+                </div>
+                <div class="form-group">
+                    <label for="middleName">Middle Name</label>
+                    <input type="text" id="middleName" name="middleName" placeholder="Middle Name">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name <span class="required">*</span></label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth <span class="required">*</span></label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender <span class="required">*</span></label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Non-Binary">Non-Binary</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bloodGroup">Blood Group</label>
+                    <select id="bloodGroup" name="bloodGroup">
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nationality">Nationality</label>
+                    <input type="text" id="nationality" name="nationality" placeholder="e.g., Indian">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category / Status</label>
+                    <select id="category" name="category">
+                        <option value="General">General</option>
+                        <option value="OBC">OBC</option>
+                        <option value="SC/ST">SC/ST</option>
+                        <option value="International">International</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- 3. Contact Details -->
+        <fieldset>
+            <legend>Contact Information</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="email">Student Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="student@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Student Mobile Number <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+91 9876543210">
+                </div>
+                <div class="form-group">
+                    <label for="altPhone">Alternate Contact Number</label>
+                    <input type="tel" id="altPhone" name="altPhone" placeholder="+91 9876543211">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- 4. Parent / Guardian Details -->
+        <fieldset>
+            <legend>Parent / Guardian Information</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="fatherName">Father's Name <span class="required">*</span></label>
+                    <input type="text" id="fatherName" name="fatherName" required placeholder="Father's Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="motherName">Mother's Name <span class="required">*</span></label>
+                    <input type="text" id="motherName" name="motherName" required placeholder="Mother's Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="guardianPhone">Parent / Guardian Contact <span class="required">*</span></label>
+                    <input type="tel" id="guardianPhone" name="guardianPhone" required placeholder="+91 9876543212">
+                </div>
+                <div class="form-group">
+                    <label for="guardianEmail">Parent / Guardian Email</label>
+                    <input type="email" id="guardianEmail" name="guardianEmail" placeholder="parent@example.com">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- 5. Address Information -->
+        <fieldset>
+            <legend>Address Details</legend>
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="streetAddress">Permanent Street Address <span class="required">*</span></label>
+                    <textarea id="streetAddress" name="streetAddress" rows="2" required placeholder="House No., Street Name, Area"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="city">City <span class="required">*</span></label>
+                    <input type="text" id="city" name="city" required placeholder="City">
+                </div>
+                <div class="form-group">
+                    <label for="state">State / Province <span class="required">*</span></label>
+                    <input type="text" id="state" name="state" required placeholder="State">
+                </div>
+                <div class="form-group">
+                    <label for="postalCode">Postal / ZIP Code <span class="required">*</span></label>
+                    <input type="text" id="postalCode" name="postalCode" required placeholder="Postal Code">
+                </div>
+                <div class="form-group">
+                    <label for="country">Country <span class="required">*</span></label>
+                    <input type="text" id="country" name="country" required placeholder="Country">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- 6. Additional & Emergency Information -->
+        <fieldset>
+            <legend>Additional & Emergency Info</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="hostel">Accommodation Status</label>
+                    <select id="hostel" name="hostel">
+                        <option value="Day Scholar">Day Scholar</option>
+                        <option value="Hosteller">College Hostel</option>
+                        <option value="PG/Private Accomodation">PG / Private Accommodation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="emergencyContactName">Emergency Contact Person</label>
+                    <input type="text" id="emergencyContactName" name="emergencyContactName" placeholder="Contact Person Name">
+                </div>
+                <div class="form-group">
+                    <label for="emergencyContactPhone">Emergency Contact Phone</label>
+                    <input type="tel" id="emergencyContactPhone" name="emergencyContactPhone" placeholder="Emergency Phone">
+                </div>
+                <div class="form-group full-width">
+                    <label for="medicalConditions">Medical Conditions / Allergies (If Any)</label>
+                    <textarea id="medicalConditions" name="medicalConditions" rows="2" placeholder="List any chronic illness, allergies, or special needs..."></textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Form Actions -->
+        <div class="button-group">
+            <button type="reset">Reset Form</button>
+            <button type="submit" id="submitBtn">Submit Registration</button>
+        </div>
+
+        <div id="status-message"></div>
+
+    </form>
+</div>
+
+<script>
+    // -------------------------------------------------------------------
+    // REPLACE THIS URL WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+    // -------------------------------------------------------------------
+    const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+    const form = document.getElementById('studentForm');
+    const statusMsg = document.getElementById('status-message');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Check if URL has been updated
+        if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+            statusMsg.className = 'error';
+            statusMsg.textContent = 'Please replace GOOGLE_SCRIPT_URL in JavaScript with your actual Google Apps Script Web App URL.';
+            statusMsg.style.display = 'block';
+            return;
+        }
+
+        // Disable button during submission
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        // Gather all form fields into key-value pairs
+        const formData = new FormData(form);
+        const dataObj = {};
+        formData.forEach((value, key) => {
+            dataObj[key] = value;
+        });
+
+        // Submit form data to Google Apps Script
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Google Apps Script Web Apps require no-cors mode for cross-domain requests
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataObj)
+        })
+        .then(() => {
+            statusMsg.className = 'success';
+            statusMsg.textContent = 'Form submitted successfully!';
+            statusMsg.style.display = 'block';
+            form.reset();
+        })
+        .catch(error => {
+            console.error('Error submitting form:', error);
+            statusMsg.className = 'error';
+            statusMsg.textContent = 'An error occurred while submitting the form. Please try again.';
+            statusMsg.style.display = 'block';
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Registration';
+        });
+    });
+</script>
+
+</body>
+</html>
