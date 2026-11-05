@@ -389,10 +389,8 @@
 </div>
 
 <script>
-    // -------------------------------------------------------------------
-    // REPLACE THIS URL WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
-    // -------------------------------------------------------------------
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuB6srHRNFoiRAHpdHJEXA0y7mWEVShK9D5Szr2amKQY1MKv26gtVuoaooUZxNGd4Z/exec";
+    // Updated with the new deployment URL (Version 3)
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxD0WLnnYnUBFIRVWHBHsre7i6k27pndXG5LjeZBGvV3XsTPtLnwmsyIVAbhhHNM/exec";
 
     const form = document.getElementById('studentForm');
     const statusMsg = document.getElementById('status-message');
@@ -400,14 +398,6 @@
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-
-        // Check if URL has been updated
-        if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
-            statusMsg.className = 'error';
-            statusMsg.textContent = 'Please replace GOOGLE_SCRIPT_URL in JavaScript with your actual Google Apps Script Web App URL.';
-            statusMsg.style.display = 'block';
-            return;
-        }
 
         // Disable button during submission
         submitBtn.disabled = true;
@@ -423,7 +413,7 @@
         // Submit form data to Google Apps Script
         fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Google Apps Script Web Apps require no-cors mode for cross-domain requests
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
