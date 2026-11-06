@@ -8,11 +8,198 @@ function doPost(e) {
       sheet.appendRow(["Timestamp", "Full Name", "Email Address", "Phone Number", "Course Category", "Selected Course"]);
       sheet.getRange(1, 1, 1, 6).setFontWeight("bold").setBackground("#f3f4f6");
     }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Registration Form</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            min-height: 100vh;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 sm:p-6">
 
-    // Parse JSON payload or URL-encoded form data
-    var data;
-    if (e.postData && e.postData.contents) {
-      data = JSON.parse(e.postData.contents);
+    <div class="glass w-full max-w-lg rounded-2xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">
+        
+        <!-- Header -->
+        <div class="mb-6 text-center">
+            <h2 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">
+                Course Registration
+            </h2>
+            <p class="text-gray-400 text-sm mt-1">Fill out your details to enroll</p>
+        </div>
+
+        <!-- Form Status Message -->
+        <div id="statusMessage" class="hidden mb-4 p-3 rounded-lg text-sm text-center font-medium"></div>
+
+        <!-- Registration Form -->
+        <form id="registrationForm" onsubmit="handleFormSubmit(event)" class="space-y-4" novalidate>
+            
+            <!-- Full Name -->
+            <div>
+                <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="John Doe"
+                    class="w-full px-4 py-2.5 rounded-lg bg-gray-900/60 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition">
+                <span id="nameError" class="text-red-400 text-xs mt-1 hidden">Please enter your full name.</span>
+            </div>
+
+            <!-- Email Address -->
+            <div>
+                <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="john@example.com"
+                    class="w-full px-4 py-2.5 rounded-lg bg-gray-900/60 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition">
+                <span id="emailError" class="text-red-400 text-xs mt-1 hidden">Please enter a valid email address.</span>
+            </div>
+
+            <!-- Phone Number -->
+            <div>
+                <label for="phone" class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+1 234 567 8900"
+                    class="w-full px-4 py-2.5 rounded-lg bg-gray-900/60 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition">
+                <span id="phoneError" class="text-red-400 text-xs mt-1 hidden">Please enter a valid phone number (min 10 digits).</span>
+            </div>
+
+            <!-- Course Category -->
+            <div>
+                <label for="category" class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Course Track</label>
+                <select id="category" name="category" onchange="updateCourses()" required
+                    class="w-full px-4 py-2.5 rounded-lg bg-gray-900/80 border border-gray-700 text-white focus:outline-none focus:border-cyan-400 transition">
+                    <option value="">-- Select Track --</option>
+                    <option value="tech">Technology & Programming</option>
+                    <option value="design">Design & Creative</option>
+                    <option value="business">Business & Marketing</option>
+                </select>
+                <span id="categoryError" class="text-red-400 text-xs mt-1 hidden">Please select a track.</span>
+            </div>
+
+            <!-- Specific Course -->
+            <div>
+                <label for="course" class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Specific Course</label>
+                <select id="course" name="course" required disabled
+                    class="w-full px-4 py-2.5 rounded-lg bg-gray-900/80 border border-gray-700 text-white focus:outline-none focus:border-cyan-400 transition disabled:opacity-50">
+                    <option value="">-- Select Track First --</option>
+                </select>
+                <span id="courseError" class="text-red-400 text-xs mt-1 hidden">Please select a course.</span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn"
+                class="w-full py-3 px-4 mt-2 rounded-lg font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition flex items-center justify-center">
+                <span id="btnText">Register Now</span>
+                <svg id="btnSpinner" class="hidden animate-spin ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <!-- Embedded JavaScript -->
+    <script>
+        // REPLACE WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+        const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+        const courseOptions = {
+            tech: ["Full-Stack Web Development", "Python Data Science", "Cloud Architecture (AWS)", "Cybersecurity Essentials"],
+            design: ["UI/UX Design Masterclass", "Graphic Design Fundamentals", "3D Animation & Motion Graphics"],
+            business: ["Digital Marketing & SEO", "Product Management", "Financial Modeling & Analytics"]
+        };
+
+        function updateCourses() {
+            const categorySelect = document.getElementById("category");
+            const courseSelect = document.getElementById("course");
+            const selectedCategory = categorySelect.value;
+
+            courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
+
+            if (selectedCategory && courseOptions[selectedCategory]) {
+                courseSelect.disabled = false;
+                courseOptions[selectedCategory].forEach(course => {
+                    const option = document.createElement("option");
+                    option.value = course;
+                    option.textContent = course;
+                    courseSelect.appendChild(option);
+                });
+            } else {
+                courseSelect.disabled = true;
+                courseSelect.innerHTML = '<option value="">-- Select Track First --</option>';
+            }
+        }
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const fields = ["name", "email", "phone", "category", "course"];
+            let isValid = true;
+            const formData = {};
+
+            // Basic validation
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const errorSpan = document.getElementById(field + "Error");
+                formData[field] = input.value.trim();
+
+                if (!input.value.trim() || (field === 'phone' && input.value.trim().length < 10)) {
+                    errorSpan.classList.remove("hidden");
+                    isValid = false;
+                } else {
+                    errorSpan.classList.add("hidden");
+                }
+            });
+
+            if (!isValid) return;
+
+            // UI Loading state
+            const submitBtn = document.getElementById("submitBtn");
+            const btnText = document.getElementById("btnText");
+            const btnSpinner = document.getElementById("btnSpinner");
+            const statusMsg = document.getElementById("statusMessage");
+
+            submitBtn.disabled = true;
+            btnText.textContent = "Submitting...";
+            btnSpinner.classList.remove("hidden");
+            statusMsg.classList.add("hidden");
+
+            try {
+                // Send data to Google Apps Script
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors", // Mode required for Google Apps Script Web Apps CORS
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                });
+
+                // Display success message
+                statusMsg.textContent = "Registration successful! Data saved to Google Sheet.";
+                statusMsg.className = "mb-4 p-3 rounded-lg text-sm text-center font-medium bg-green-500/20 border border-green-500/40 text-green-300 block";
+                document.getElementById("registrationForm").reset();
+                updateCourses();
+
+            } catch (error) {
+                // Display error message
+                statusMsg.textContent = "Failed to submit form. Please try again.";
+                statusMsg.className = "mb-4 p-3 rounded-lg text-sm text-center font-medium bg-red-500/20 border border-red-500/40 text-red-300 block";
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = "Register Now";
+                btnSpinner.classList.add("hidden");
+            }
+        }
+    </script>
+</body>
+</html>
     } else {
       data = e.parameter;
     }
